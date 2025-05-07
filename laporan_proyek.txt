@@ -1,0 +1,105 @@
+LAPORAN PROYEK MACHINE LEARNING: PREDIKSI RISIKO DIABETES
+
+1. DOMAIN PROYEK
+Diabetes merupakan penyakit metabolik kronis yang sangat umum dan dapat menyebabkan komplikasi serius seperti gagal ginjal, penyakit jantung, hingga kebutaan jika tidak terdeteksi dan ditangani lebih awal. Menurut WHO, jumlah penderita diabetes meningkat secara signifikan setiap tahunnya dan menjadi salah satu penyebab kematian terbesar di dunia. Oleh karena itu, deteksi dini menjadi kunci pencegahan komplikasi lanjutan. Dalam proyek ini, kami membangun model machine learning untuk memprediksi kemungkinan seseorang menderita diabetes berdasarkan data medis sederhana.
+
+Referensi:
+- World Health Organization (WHO). (2023). Diabetes. https://www.who.int/news-room/fact-sheets/detail/diabetes
+- UCI Machine Learning Repository: Pima Indians Diabetes Database. https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database
+
+2. BUSINESS UNDERSTANDING
+**Problem Statement:**
+Bagaimana cara memprediksi risiko diabetes seseorang hanya dengan data pemeriksaan awal (seperti usia, kadar glukosa, tekanan darah) tanpa prosedur medis lanjutan?
+
+**Goals:**
+Membangun model klasifikasi yang mampu memprediksi apakah seseorang berisiko diabetes dengan akurasi dan interpretasi yang baik.
+
+**Solution Statement:**
+- Menggunakan dua algoritma machine learning: Logistic Regression dan Random Forest.
+- Melakukan perbandingan performa antar algoritma.
+- Menerapkan hyperparameter tuning untuk meningkatkan performa model Random Forest.
+
+Model-model ini akan dievaluasi menggunakan metrik akurasi, precision, recall, dan f1-score agar solusi dapat terukur secara kuantitatif.
+
+3. DATA UNDERSTANDING
+Dataset yang digunakan adalah **Pima Indians Diabetes Dataset** dari Kaggle/UCI. Dataset terdiri dari 768 baris dan 9 kolom, dengan 8 fitur dan 1 label:
+- Pregnancies: Jumlah kehamilan
+- Glucose: Kadar glukosa darah
+- BloodPressure: Tekanan darah diastolik
+- SkinThickness: Ketebalan kulit (mm)
+- Insulin: Kadar insulin serum (mu U/ml)
+- BMI: Indeks massa tubuh
+- DiabetesPedigreeFunction: Riwayat genetik diabetes
+- Age: Usia
+- Outcome: Label (0 = tidak diabetes, 1 = diabetes)
+
+Distribusi target:
+- Tidak diabetes: 500+ entri
+- Diabetes: 200+ entri
+
+Tautan data: https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database
+
+**Visualisasi dan Eksplorasi Data:**
+- Korelasi fitur divisualisasikan menggunakan heatmap (Glucose dan BMI punya korelasi tinggi dengan Outcome).
+- Distribusi kelas divisualisasikan dengan countplot.
+
+4. DATA PREPARATION
+Tahapan yang dilakukan:
+- Mengganti nilai 0 di kolom Glucose, BloodPressure, SkinThickness, Insulin, dan BMI menjadi NaN (karena secara medis tidak logis bernilai nol).
+- Mengimputasi NaN dengan **median** karena data tidak normal dan memiliki outlier.
+- Melakukan **normalisasi** menggunakan StandardScaler untuk mempercepat konvergensi model dan memperbaiki performa.
+
+Semua tahap ini dilakukan secara berurutan untuk memastikan model menerima input data yang bersih dan siap dilatih.
+
+5. MODELING
+**Model 1: Logistic Regression**
+- Algoritma dasar namun sangat baik untuk interpretasi.
+- Parameter default digunakan.
+
+**Model 2: Random Forest**
+- Algoritma ensemble yang menangani data non-linear dan outlier dengan baik.
+- Parameter default diuji lebih lanjut dengan tuning.
+
+**Hyperparameter Tuning:**
+- Menggunakan `GridSearchCV` untuk mencari kombinasi terbaik dari:
+  - `n_estimators`: 50, 100
+  - `max_depth`: None, 5, 10
+  - `min_samples_split`: 2, 5
+
+**Feature Importance:**
+- Dihitung menggunakan Random Forest, menunjukkan bahwa `Glucose`, `BMI`, dan `Age` paling berpengaruh.
+
+**Kelebihan dan Kekurangan Algoritma:**
+- Logistic Regression: Cepat, interpretatif, namun kurang akurat jika relasi antar fitur non-linear.
+- Random Forest: Lebih akurat dan fleksibel, namun kurang interpretatif dan lebih lambat dilatih.
+
+Model terbaik dipilih berdasarkan akurasi dan f1-score tertinggi setelah tuning.
+
+6. EVALUATION
+**Metrik yang digunakan:**
+- Accuracy
+- Precision
+- Recall
+- F1-score
+
+**Penjelasan metrik:**
+- Accuracy = (TP + TN) / Total
+- Precision = TP / (TP + FP)
+- Recall = TP / (TP + FN)
+- F1-score = 2 * (Precision * Recall) / (Precision + Recall)
+
+**Hasil Evaluasi:**
+- Logistic Regression: Accuracy 75.32%, F1-score 0.74
+- Random Forest (default): Accuracy 74.03%, F1-score 0.73
+- Random Forest (tuned): Accuracy 76.62%, F1-score 0.76
+
+**Model terbaik:**
+Random Forest dengan tuning karena memberikan performa tertinggi setelah optimasi parameter.
+
+7. KESIMPULAN
+Model klasifikasi berbasis machine learning berhasil dibangun untuk memprediksi risiko diabetes. Data diproses secara cermat, termasuk penanganan missing values dan normalisasi. Visualisasi dan feature selection memberikan wawasan penting. Random Forest dengan tuning menunjukkan performa terbaik dengan akurasi 76.62%.
+
+Model ini dapat digunakan sebagai sistem skrining awal di fasilitas kesehatan untuk membantu mendeteksi risiko diabetes secara cepat, hemat biaya, dan tidak invasif.
+
+Disusun oleh:
+David Kristian Silalahi
